@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+._*
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.*
+
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+
+# Bronze data
+data/bronze/*
+!data/bronze/.gitkeep
+
+# Silver data
+data/silver/*
+!data/silver/.gitkeep
+
+# Gold data
+data/gold/*
+!data/gold/.gitkeep
+
+# Generated outputs
+outputs/figures/*
+!outputs/figures/.gitkeep
+outputs/tables/*
+!outputs/tables/.gitkeep
+
+# Editors
+.vscode/
+.idea/
