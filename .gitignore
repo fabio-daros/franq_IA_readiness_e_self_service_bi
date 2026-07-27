@@ -45,3 +45,9 @@ outputs/tables/*
 !data/bronze/metadata/
 
 !data/bronze/metadata/**
+
+# Track Silver metadata, but not processed datasets
+
+!data/silver/metadata/
+
+!data/silver/metadata/**

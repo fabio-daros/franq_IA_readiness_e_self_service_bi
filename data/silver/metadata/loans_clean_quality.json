@@ -1,0 +1,245 @@
+{
+  "dataset": "Lending Club accepted loans",
+  "layer": "silver",
+  "schema_version": "1.0.0",
+  "generated_at_utc": "2026-07-27T17:43:33.779855+00:00",
+  "source_file": "data/bronze/raw/accepted_2007_to_2018Q4.csv.gz",
+  "output_file": "data/silver/loans_clean.parquet",
+  "output_file_size_bytes": 107154030,
+  "output_sha256": "9d617d9cb33a34fd4283ec5fb8d95d7db8daf3bda29dedf22e40cbed68c46189",
+  "row_count": 2260668,
+  "distinct_non_null_loan_ids": 2260668,
+  "missing_loan_ids": 0,
+  "first_issue_date": "2007-06-01",
+  "last_issue_date": "2018-12-01",
+  "quality_checks": {
+    "invalid_loan_amounts": 0,
+    "invalid_interest_rates": 0,
+    "invalid_terms": 0,
+    "invalid_grades": 0,
+    "unknown_statuses": 0,
+    "resolved_rows": 1348099,
+    "defaulted_rows": 269360,
+    "missing_annual_income": 4,
+    "missing_dti": 1711,
+    "missing_fico": 0
+  },
+  "status_group_distribution": {
+    "resolved_paid": 1078739,
+    "active_current": 878317,
+    "resolved_default": 269360,
+    "active_delinquent": 34252
+  },
+  "columns": [
+    {
+      "name": "loan_id",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "record_hash",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "loan_amount",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "funded_amount",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "term_months",
+      "type": "SMALLINT",
+      "nullable": "YES"
+    },
+    {
+      "name": "interest_rate_pct",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "installment",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "grade",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "sub_grade",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "is_grade_de",
+      "type": "BOOLEAN",
+      "nullable": "YES"
+    },
+    {
+      "name": "employment_length_raw",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "employment_length_years_lower_bound",
+      "type": "SMALLINT",
+      "nullable": "YES"
+    },
+    {
+      "name": "home_ownership",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "annual_income",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "verification_status",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "issue_date",
+      "type": "DATE",
+      "nullable": "YES"
+    },
+    {
+      "name": "issue_year",
+      "type": "INTEGER",
+      "nullable": "YES"
+    },
+    {
+      "name": "issue_quarter",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "loan_status",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "status_group",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "default_flag",
+      "type": "INTEGER",
+      "nullable": "YES"
+    },
+    {
+      "name": "is_resolved",
+      "type": "BOOLEAN",
+      "nullable": "YES"
+    },
+    {
+      "name": "is_current",
+      "type": "BOOLEAN",
+      "nullable": "YES"
+    },
+    {
+      "name": "is_delinquent",
+      "type": "BOOLEAN",
+      "nullable": "YES"
+    },
+    {
+      "name": "purpose",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "state",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "debt_to_income_ratio",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "delinquencies_2y",
+      "type": "INTEGER",
+      "nullable": "YES"
+    },
+    {
+      "name": "earliest_credit_line_date",
+      "type": "DATE",
+      "nullable": "YES"
+    },
+    {
+      "name": "credit_history_years",
+      "type": "BIGINT",
+      "nullable": "YES"
+    },
+    {
+      "name": "open_accounts",
+      "type": "INTEGER",
+      "nullable": "YES"
+    },
+    {
+      "name": "public_records",
+      "type": "INTEGER",
+      "nullable": "YES"
+    },
+    {
+      "name": "revolving_balance",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "revolving_utilization_pct",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "total_accounts",
+      "type": "INTEGER",
+      "nullable": "YES"
+    },
+    {
+      "name": "initial_list_status",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "application_type",
+      "type": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "name": "mortgage_accounts",
+      "type": "INTEGER",
+      "nullable": "YES"
+    },
+    {
+      "name": "public_record_bankruptcies",
+      "type": "INTEGER",
+      "nullable": "YES"
+    },
+    {
+      "name": "fico_range_low",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "fico_range_high",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    },
+    {
+      "name": "fico_score_avg",
+      "type": "DOUBLE",
+      "nullable": "YES"
+    }
+  ]
+}
