@@ -39,3 +39,9 @@ outputs/tables/*
 # Editors
 .vscode/
 .idea/
+
+# Track Bronze metadata, but not raw data
+
+!data/bronze/metadata/
+
+!data/bronze/metadata/**
