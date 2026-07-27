@@ -1,0 +1,36 @@
+{
+  "generated_at_utc": "2026-07-27T17:56:09.314762+00:00",
+  "metric_scope": {
+    "origination_period": "2014-01-01 to 2015-12-31",
+    "term_months": 36,
+    "population": "loans with a known final outcome",
+    "unit_of_analysis": "loan contract",
+    "currency": "USD"
+  },
+  "definitions": {
+    "default_rate": "Defaulted loans divided by loans with a known final outcome.",
+    "portfolio_share": "Segment loan contracts divided by all contracts in the analytical cohort.",
+    "average_ticket": "Arithmetic mean of the original requested loan amount."
+  },
+  "overall_portfolio": {
+    "total_loans": 445596,
+    "defaulted_loans": 64447,
+    "default_rate_pct": 14.4631,
+    "average_loan_amount_usd": 12725.3,
+    "average_interest_rate_pct": 11.7103
+  },
+  "debt_consolidation": {
+    "total_loans": 255805,
+    "portfolio_share_pct": 57.4074,
+    "defaulted_loans": 38943,
+    "default_rate_pct": 15.2237,
+    "average_loan_amount_usd": 13189.82,
+    "median_loan_amount_usd": 11000.0,
+    "grade_bc_share_pct": 61.9378,
+    "average_interest_rate_pct": 11.9537,
+    "average_annual_income_usd": 72397.73,
+    "median_annual_income_usd": 60000.0,
+    "average_dti": 18.6339,
+    "average_fico_score": 694.1
+  }
+}

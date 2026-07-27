@@ -1,0 +1,56 @@
+{
+  "dataset": "FinLend business-ready credit datasets",
+  "layer": "gold",
+  "schema_version": "1.0.0",
+  "generated_at_utc": "2026-07-27T17:56:09.355432+00:00",
+  "source_file": "data/silver/loans_clean.parquet",
+  "cohort_definition": {
+    "issue_date_start": "2014-01-01",
+    "issue_date_end_exclusive": "2016-01-01",
+    "term_months": 36,
+    "resolved_only": true
+  },
+  "row_count": 445596,
+  "distinct_loan_ids": 445596,
+  "first_issue_date": "2014-01-01",
+  "last_issue_date": "2015-12-01",
+  "quality_checks": {
+    "missing_default_flags": 0,
+    "invalid_default_flags": 0,
+    "missing_loan_amounts": 0,
+    "missing_grades": 0,
+    "missing_purposes": 0
+  },
+  "files": {
+    "analysis_cohort.parquet": {
+      "relative_path": "data/gold/analysis_cohort.parquet",
+      "size_bytes": 18313746,
+      "sha256": "57177583c29b49806d065f19ff8cd27f9af61aeed72a4626a3c8fdb778942905"
+    },
+    "dashboard_loans.csv": {
+      "relative_path": "data/gold/dashboard_loans.csv",
+      "size_bytes": 72980243,
+      "sha256": "afff36861781e300c66482eee0a5bd2387ffc64785d802e33b0914f3e067c2ec"
+    },
+    "quarterly_risk_metrics.csv": {
+      "relative_path": "data/gold/quarterly_risk_metrics.csv",
+      "size_bytes": 964,
+      "sha256": "c583939be734e005a2b282e60d015b978e7a415892ae8eafafeab813ee3cd7ec"
+    },
+    "risk_by_grade.csv": {
+      "relative_path": "data/gold/risk_by_grade.csv",
+      "size_bytes": 679,
+      "sha256": "3adaaed66d3f70362353773f00998870c900cbf337081857558801592f079c6a"
+    },
+    "risk_by_purpose.csv": {
+      "relative_path": "data/gold/risk_by_purpose.csv",
+      "size_bytes": 1475,
+      "sha256": "7f85abfb4209545ab7d58727a08322819b3602d395e3051cba5b25c8196840ba"
+    },
+    "ai_validation_metrics.json": {
+      "relative_path": "data/gold/ai_validation_metrics.json",
+      "size_bytes": 1226,
+      "sha256": "ed372ef109d0c061a93121690c51955bed8b64e0bdc4dbf62c8fd827005428ea"
+    }
+  }
+}

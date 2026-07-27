@@ -51,3 +51,19 @@ outputs/tables/*
 !data/silver/metadata/
 
 !data/silver/metadata/**
+
+# Track Gold metadata, but not generated datasets
+
+!data/gold/metadata/
+
+!data/gold/metadata/**
+
+# Track small Gold business outputs
+
+!data/gold/quarterly_risk_metrics.csv
+
+!data/gold/risk_by_grade.csv
+
+!data/gold/risk_by_purpose.csv
+
+!data/gold/ai_validation_metrics.json
