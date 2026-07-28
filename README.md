@@ -7,7 +7,7 @@ analysis and AI Readiness.
 
 ### Part 1 — Self-Service BI
 
-[Open the Looker Studio dashboard](COLE_O_LINK)
+[Open the Looker Studio dashboard](https://datastudio.google.com/reporting/76e8c097-dfbd-4499-beb5-8c8496a97335)
 
 ### Part 2 — Statistical Analysis
 
