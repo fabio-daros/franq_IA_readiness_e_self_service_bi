@@ -18,52 +18,36 @@ __pycache__/
 .RData
 .Rproj.user/
 
-# Bronze data
-data/bronze/*
-!data/bronze/.gitkeep
-
-# Silver data
-data/silver/*
-!data/silver/.gitkeep
-
-# Gold data
-data/gold/*
-!data/gold/.gitkeep
-
-# Generated outputs
-outputs/figures/*
-!outputs/figures/.gitkeep
-outputs/tables/*
-!outputs/tables/.gitkeep
-
 # Editors
 .vscode/
 .idea/
 
-# Track Bronze metadata, but not raw data
-
+# Bronze: keep metadata only (exclude raw Kaggle files)
+data/bronze/*
+!data/bronze/.gitkeep
 !data/bronze/metadata/
-
 !data/bronze/metadata/**
 
-# Track Silver metadata, but not processed datasets
-
+# Silver: keep quality metadata only
+data/silver/*
+!data/silver/.gitkeep
 !data/silver/metadata/
-
 !data/silver/metadata/**
 
-# Track Gold metadata, but not generated datasets
-
+# Gold: keep small governed outputs; exclude large loan-level extracts
+data/gold/*
+!data/gold/.gitkeep
 !data/gold/metadata/
-
 !data/gold/metadata/**
-
-# Track small Gold business outputs
-
 !data/gold/quarterly_risk_metrics.csv
-
 !data/gold/risk_by_grade.csv
-
 !data/gold/risk_by_purpose.csv
-
 !data/gold/ai_validation_metrics.json
+
+# Generated local artifacts
+outputs/figures/*
+!outputs/figures/.gitkeep
+outputs/tables/*
+!outputs/tables/.gitkeep
+outputs/*.html
+outputs/*.pdf

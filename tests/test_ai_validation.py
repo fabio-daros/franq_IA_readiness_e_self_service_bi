@@ -8,7 +8,7 @@ import pytest
 
 
 PERCENTAGE_TOLERANCE_PP = 0.25
-CURRENCY_TOLERANCE_USD = 100.0
+CURRENCY_RELATIVE_TOLERANCE = 0.01
 
 
 def sql_path(path: Path) -> str:
@@ -21,6 +21,19 @@ def is_validated(
     tolerance: float,
 ) -> bool:
     return abs(claimed_value - actual_value) <= tolerance
+
+
+def is_validated_currency(
+    claimed_value: float,
+    actual_value: float,
+    relative_tolerance: float = CURRENCY_RELATIVE_TOLERANCE,
+) -> bool:
+    if actual_value == 0:
+        return claimed_value == 0
+    relative_error = abs(actual_value - claimed_value) / abs(
+        actual_value
+    )
+    return relative_error <= relative_tolerance
 
 
 def test_ai_metrics_match_gold_source(
@@ -69,7 +82,9 @@ def test_ai_metrics_match_gold_source(
                 END
             ) AS grade_bc_share_pct,
             AVG(interest_rate_pct)
-                AS average_interest_rate_pct
+                AS average_interest_rate_pct,
+            AVG(annual_income)
+                AS average_annual_income_usd
         FROM read_parquet('{path}')
         WHERE purpose = 'debt_consolidation'
         """
@@ -115,6 +130,13 @@ def test_ai_metrics_match_gold_source(
         abs=0.0001,
     )
 
+    assert segment_metrics[
+        "average_annual_income_usd"
+    ] == pytest.approx(
+        segment[6],
+        abs=0.01,
+    )
+
     expected_portfolio_share = (
         100.0 * segment[0] / overall[0]
     )
@@ -154,13 +176,16 @@ def test_case_llm_claim_classification(
         tolerance=PERCENTAGE_TOLERANCE_PP,
     )
 
-    # Claim: average ticket is USD 72,000.
-    assert not is_validated(
+    # Claim: average ticket is USD 15,200.
+    assert not is_validated_currency(
+        claimed_value=15_200.0,
+        actual_value=segment["average_loan_amount_usd"],
+    )
+
+    # Claim: average annual income is USD 72,000.
+    assert is_validated_currency(
         claimed_value=72_000.0,
-        actual_value=segment[
-            "average_loan_amount_usd"
-        ],
-        tolerance=CURRENCY_TOLERANCE_USD,
+        actual_value=segment["average_annual_income_usd"],
     )
 
     # Claim: 62% are Grades B and C.
@@ -179,8 +204,17 @@ def test_case_llm_claim_classification(
         tolerance=PERCENTAGE_TOLERANCE_PP,
     )
 
-    # The segment is above, not below, the portfolio average.
-    assert (
-        segment["default_rate_pct"]
-        > overall["default_rate_pct"]
+    # Directional claim: segment default is "below" the portfolio.
+    # Numerically close rates must not hide an inverted conclusion.
+    segment_default_rate = segment["default_rate_pct"]
+    portfolio_default_rate = overall["default_rate_pct"]
+
+    assert segment_default_rate > portfolio_default_rate
+
+    claimed_direction = "below"
+    actual_direction = (
+        "below"
+        if segment_default_rate < portfolio_default_rate
+        else "above"
     )
+    assert actual_direction != claimed_direction
