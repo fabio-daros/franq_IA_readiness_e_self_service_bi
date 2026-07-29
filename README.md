@@ -1,50 +1,68 @@
 # FinLend Credit Intelligence
 
-Technical case for a Data Analyst role focused on Self-Service BI, credit risk
-analysis and AI Readiness.
+Teste técnico para a posição de Analista de Dados, com foco em Self-Service BI,
+análise de risco de crédito e AI Readiness.
 
-## Deliverables
+## Entregáveis
 
-### Part 1 — Self-Service BI
+### Parte 1 — Self-Service BI
 
-[Open the Looker Studio dashboard](https://datastudio.google.com/reporting/76e8c097-dfbd-4499-beb5-8c8496a97335)
+[Visualizar dashboard no Looker Studio](https://datastudio.google.com/reporting/76e8c097-dfbd-4499-beb5-8c8496a97335)
 
-### Part 2 — Statistical Analysis
+### Parte 2 — Análise estatística
 
-[`notebooks/finlend_default_hypothesis_analysis.ipynb`](notebooks/finlend_default_hypothesis_analysis.ipynb)
+[Visualizar notebook](notebooks/finlend_default_hypothesis_analysis.ipynb)
 
-### Part 3 — Generative AI Validation
+### Parte 3 — Curadoria e validação de IA generativa
 
-[`docs/ai_validation_report.md`](docs/ai_validation_report.md)
+[Visualizar relatório](docs/ai_validation_report.md)
 
----
+## Principais resultados
 
-## Data architecture
+- A inadimplência aumentou 1,16 ponto percentual entre 2014 e 2015.
+- A participação das grades D/E caiu 2,07 pontos percentuais.
+- A deterioração ocorreu dentro de D/E e também nas demais grades.
+- A hipótese de que a alta foi causada por maior participação de D/E não foi
+  sustentada.
+- A resposta do agente de IA foi classificada como `BLOCK` por conter erros
+  materiais e inverter a direção do risco do segmento.
 
-The project follows a lightweight Medallion architecture:
+## Como avaliar esta entrega
 
-- **Bronze:** immutable source files and ingestion metadata
-- **Silver:** cleaned loan-level dataset with standardized types and outcomes
-- **Gold:** governed analytical cohort and metrics used by the dashboard,
-  statistical analysis and AI validation
-
-Automated tests reconcile the data across the three layers.
-
-The primary analytical cohort is:
-
-- originations from **2014–2015**
-- contractual term of **36 months**
-- loans with a **known final outcome**
-
-This cohort is the shared source of truth for the Looker dashboard, the
-statistical notebook and the AI validation report.
+1. Abra o dashboard do Looker Studio e teste os filtros.
+2. Leia o resumo executivo do notebook da Parte 2.
+3. Consulte a classificação e a análise de sensibilidade no relatório da Parte 3.
+4. Para validar a reprodutibilidade, execute `python -m pytest -q`.
 
 ---
 
-## Repository structure
+## Arquitetura de dados
+
+O projeto segue uma arquitetura Medallion enxuta:
+
+- **Bronze:** arquivos-fonte imutáveis e metadados de ingestão
+- **Silver:** base loan-level limpa, com tipos padronizados e desfechos
+  classificados
+- **Gold:** coorte analítica governada e métricas oficiais usadas no dashboard,
+  na análise estatística e na validação de IA
+
+Testes automatizados reconciliam as três camadas.
+
+A coorte analítica principal é:
+
+- originações de **2014–2015**
+- prazo contratual de **36 meses**
+- apenas contratos com **desfecho conhecido**
+
+Essa coorte é a fonte única de verdade para o Looker Studio, o notebook e o
+relatório de validação de IA.
+
+---
+
+## Estrutura do repositório
 
 ```text
-finlend-credit-intelligence/
+franq_ia_readiness_e_self_service_bi/
 ├── README.md
 ├── requirements.txt
 ├── pytest.ini
@@ -68,7 +86,7 @@ finlend-credit-intelligence/
     └── gold/
 ```
 
-Large raw files and regenerated datasets are intentionally excluded from Git.
+Arquivos grandes e datasets regeneráveis foram propositalmente excluídos do Git.
 
 ---
 
@@ -80,7 +98,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Register the Jupyter kernel if needed:
+Se necessário, registre o kernel do Jupyter:
 
 ```bash
 python -m ipykernel install --user --name finlend --display-name "Python 3.12 — FinLend"
@@ -88,27 +106,26 @@ python -m ipykernel install --user --name finlend --display-name "Python 3.12 �
 
 ---
 
-## Data source
+## Fonte de dados
 
-Use the public Lending Club dataset from Kaggle:
+Utilize o dataset público Lending Club no Kaggle:
 
 [Lending Club Loan Data](https://www.kaggle.com/datasets/wordsforthewise/lending-club)
 
-Place the accepted loans file at:
+Coloque o arquivo de empréstimos aceitos em:
 
 ```text
 data/bronze/raw/accepted_2007_to_2018Q4.csv.gz
 ```
 
-The original Kaggle archive may also be kept locally as
-`data/bronze/raw/archive.zip`, but it is not required by the pipeline and is
-not versioned.
+O arquivo `data/bronze/raw/archive.zip` pode ser mantido localmente, mas não é
+necessário para o pipeline e não é versionado.
 
 ---
 
-## Rebuild the Medallion layers
+## Reconstrução das camadas Medallion
 
-From the project root, with the virtual environment activated:
+Na raiz do projeto, com o ambiente virtual ativado:
 
 ```bash
 python scripts/01_build_bronze.py
@@ -116,28 +133,34 @@ python scripts/02_build_silver.py
 python scripts/03_build_gold.py
 ```
 
-Expected Gold outputs include:
+Principais saídas da Gold:
 
-- `data/gold/analysis_cohort.parquet` — notebook / statistical cohort
-- `data/gold/dashboard_loans.csv` — Looker Studio source
+- `data/gold/analysis_cohort.parquet` — coorte do notebook
+- `data/gold/dashboard_loans.csv` — fonte do Looker Studio
 - `data/gold/quarterly_risk_metrics.csv`
 - `data/gold/risk_by_grade.csv`
 - `data/gold/risk_by_purpose.csv`
-- `data/gold/ai_validation_metrics.json` — official metrics for Part 3
+- `data/gold/ai_validation_metrics.json` — métricas oficiais da Parte 3
 
-Small governed Gold aggregates and manifests are tracked in Git for auditability.
-Loan-level Parquet/CSV extracts remain local because of size.
+Agregados pequenos e manifests da Gold ficam no Git para auditoria. Extratos
+loan-level em Parquet/CSV permanecem locais por tamanho.
 
 ---
 
-## Validate AI claims and run tests
+## Validação de IA e testes
 
 ```bash
 python scripts/04_validate_ai_claims_across_cohorts.py
 python -m pytest -q
 ```
 
-The cross-cohort validation writes:
+Resultado esperado da suíte:
+
+```text
+11 passed
+```
+
+A validação entre coortes grava:
 
 ```text
 outputs/tables/ai_claims_cross_cohort_validation.csv
@@ -145,9 +168,9 @@ outputs/tables/ai_claims_cross_cohort_validation.csv
 
 ---
 
-## Notes
+## Notas
 
-- Part 1 consumes `data/gold/dashboard_loans.csv` in Looker Studio.
-- Part 2 reads `data/gold/analysis_cohort.parquet`.
-- Part 3 validates the LLM response against Gold metrics and checks robustness
-  across alternative mature cohorts on Silver.
+- A Parte 1 consome `data/gold/dashboard_loans.csv` no Looker Studio.
+- A Parte 2 lê `data/gold/analysis_cohort.parquet`.
+- A Parte 3 valida a resposta do LLM contra as métricas Gold e verifica
+  robustez em coortes maduras alternativas na Silver.
