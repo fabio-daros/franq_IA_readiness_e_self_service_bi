@@ -72,8 +72,8 @@ A falha principal é a inversão da conclusão de risco:
 
 | Métrica | Valor |
 |---|---|
-| Default do segmento | 15,2237% |
-| Default geral | 14,4631% |
+| Inadimplência do segmento | 15,2237% |
+| Inadimplência geral | 14,4631% |
 | Diferença | **+0,7606 pp** |
 
 O segmento está **acima**, e não abaixo, da inadimplência geral.
@@ -98,10 +98,10 @@ Falhas materiais:
    quando está acima.
 2. **Erros quantitativos relevantes** — participação, inadimplência do segmento,
    ticket e juros divergem além da tolerância.
-3. **Possível confusão semântica** — renda e ticket podem ter sido misturados
-   no raciocínio do modelo.
+3. **Possível confusão semântica** — a resposta apresenta possível confusão
+   semântica entre ticket e renda, métricas que foram validadas separadamente.
 4. **Falta de escopo explícito** — a resposta não declara coorte, prazo nem se
-   contratos sem desfecho foram excluídos.
+   contratos sem desfecho conhecido foram excluídos.
 
 Para um agente usado por gestores de crédito, o erro direcional é suficiente
 para bloquear a liberação: a conclusão de negócio fica invertida.
@@ -118,16 +118,16 @@ ponto percentual.
 
 Resumo dos recortes:
 
-| Escopo | Share | Seg. vs geral | Ticket | Renda | Direção |
+| Escopo | Participação | Seg. vs geral | Ticket | Renda | Direção |
 |---|---:|---:|---:|---:|---|
-| 2014–2015, 36m, resolvidos (Gold) | 57,41% | +0,76 pp | US$ 13.190 | US$ 72.398 | Acima |
-| 2007–2015, 36m, resolvidos | 56,65% | +0,66 pp | US$ 13.064 | US$ 71.276 | Acima |
-| 2007–2013, 60m, resolvidos | 63,74% | +0,91 pp | US$ 20.526 | US$ 77.272 | Acima |
+| 2014–2015, 36m, desfecho conhecido (Gold) | 57,41% | +0,76 pp | US$ 13.190 | US$ 72.398 | Acima |
+| 2007–2015, 36m, desfecho conhecido | 56,65% | +0,66 pp | US$ 13.064 | US$ 71.276 | Acima |
+| 2007–2013, 60m, desfecho conhecido | 63,74% | +0,91 pp | US$ 20.526 | US$ 77.272 | Acima |
 | Snapshot completo* | 56,53% | +1,18 pp | US$ 15.968 | US$ 76.881 | Acima |
 
 \*No snapshot completo, 21,16% (segmento) e 19,98% (carteira) referem-se à
 **taxa de inadimplência entre contratos com desfecho conhecido no snapshot
-completo**, não ao default sobre os 2,26 milhões de contratos. 40,37% da
+completo**, não à inadimplência sobre os 2,26 milhões de contratos. 40,37% da
 carteira ainda estava sem desfecho final nesse recorte.
 
 Alguns valores isolados podem se aproximar das alegações quando o escopo é
@@ -140,7 +140,8 @@ risco do segmento permanece incorreta em todos os recortes.
 ## 5. Proposta de melhoria
 
 1. **Respostas com escopo obrigatório** — toda saída do agente deve declarar
-   período, prazo, população (resolvidos vs snapshot) e definição de default.
+   período, prazo, população (desfecho conhecido vs snapshot) e definição de
+   inadimplência.
 2. **Grounding em métricas Gold** — o LLM deve consultar
    `ai_validation_metrics.json` / tabelas Gold em vez de estimar números.
 3. **Checagem direcional automática** — bloquear respostas que invertam
@@ -153,10 +154,10 @@ risco do segmento permanece incorreta em todos os recortes.
 
 Exemplo de formato seguro de resposta:
 
-> Na coorte 2014–2015 (36 meses, contratos resolvidos), consolidação de dívidas
-> representa 57,4% da carteira. A inadimplência do segmento é 15,22%, **0,76 pp
-> acima** da média geral (14,46%). Ticket médio: US$ 13.190. Renda média anual:
-> US$ 72.398. Grades B/C: 61,9%. Juros médios: 11,95%.
+> Na coorte 2014–2015 (36 meses, contratos com desfecho conhecido), consolidação
+> de dívidas representa 57,4% da carteira. A inadimplência do segmento é 15,22%,
+> **0,76 pp acima** da média geral (14,46%). Ticket médio: US$ 13.190. Renda
+> média anual: US$ 72.398. Grades B/C: 61,9%. Juros médios: 11,95%.
 
 ---
 
@@ -203,9 +204,6 @@ Resultado da suíte automatizada:
 ```text
 11 passed
 ```
-
-Essa separação evita que o LLM consulte diretamente dados brutos e reduz o risco
-de produzir métricas com definições, denominadores ou populações inconsistentes.
 
 ---
 
